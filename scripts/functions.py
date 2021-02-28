@@ -196,18 +196,23 @@ list_of_standard_labels = ['definition', 'lemma', 'proposition', 'theorem', 'rem
 # in the correct order
 def list_text_files(path):
 	Makefile_file = open(path + "Makefile", 'r')
-	for line in Makefile_file:
-		n = line.find("LIJST = ")
-		if n == 0:
-			break
+
 	lijst = ""
-	while line.find("\\") >= 0:
-		line = line.rstrip()
-		line = line.rstrip("\\")
-		lijst = lijst + " " + line
-		line = Makefile_file.next()
-	Makefile_file.close()
-	lijst = lijst + " " + line
+	append = False
+
+	# gather all files that are assigned to LIJST in the Makefile.
+	for line in Makefile_file:
+		# print(line)
+		if line.startswith("LIJST = "): # begin appending to lijst
+			lijst += line.strip().rstrip("\\")
+			append = True
+		elif append:
+			if line.strip() == '': # detect end of LIJST in the Makefile
+			break
+			lijst += line.strip().rstrip("\\")
+
+	# print(lijst)
+
 	lijst = lijst.replace("LIJST = ", "")
 	lijst = lijst + " fdl"
 	return lijst.split()
@@ -323,8 +328,8 @@ def print_chapters(path):
 def print_version(path):
 	from datetime import date
 	now = date.today()
-	version = git_version(path)
-	print "Version " + version + ", compiled on " + now.strftime('%h %d, %Y.')
+	version = git_version(path).decode('utf-8')
+	print("Version " + version + ", compiled on " + now.strftime('%h %d, %Y.'))
 
 
 # Print license blurp
