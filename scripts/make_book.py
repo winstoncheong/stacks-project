@@ -24,8 +24,9 @@ def print_preamble(path):
 
 # Print names contributors
 def print_list_contrib(path):
+	# import sys
 	filename = path + 'CONTRIBUTORS'
-	CONTRIBUTORS = open(filename, 'r')
+	CONTRIBUTORS = open(filename, 'r', encoding='utf8')
 	first = 1
 	for line in CONTRIBUTORS:
 		if line.find("%") == 0:
@@ -42,7 +43,9 @@ def print_list_contrib(path):
 		contributors = contributors + ", " + contributor
 	CONTRIBUTORS.close()
 	contributors = contributors + "."
-	print contributors
+	# sys.stdout.buffer.write(contributors.encode('utf-8'))
+	print(contributors.encode('utf-8'))
+	# print(contributors)
 
 path = get_path()
 
@@ -61,6 +64,7 @@ print("}")
 print("\\vskip1in")
 print("\\noindent")
 print("The following people have contributed to this work:")
+# print_list_contrib(path)
 print("\\end{titlepage}")
 print_license_blurp(path)
 
