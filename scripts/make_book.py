@@ -18,7 +18,7 @@ def print_preamble(path):
 		if line.find("\\documentclass") == 0:
 			line = line.replace("amsart", "amsbook")
 			line = line.replace("stacks-project", "stacks-project-book")
-		print line,
+		print(line, end='')
 	preamble.close()
 	return
 
@@ -48,21 +48,20 @@ path = get_path()
 
 print_preamble(path)
 
-print "\\begin{document}"
-print "\\begin{titlepage}"
-print "\\pagestyle{empty}"
-print "\\setcounter{page}{1}"
-print "\\centerline{\\LARGE\\bfseries Stacks Project}"
-print "\\vskip1in"
-print "\\noindent"
-print "\\centerline{"
+print("\\begin{document}")
+print("\\begin{titlepage}")
+print("\\pagestyle{empty}")
+print("\\setcounter{page}{1}")
+print("\\centerline{\\LARGE\\bfseries Stacks Project}")
+print("\\vskip1in")
+print("\\noindent")
+print("\\centerline{")
 print_version(path)
-print "}"
-print "\\vskip1in"
-print "\\noindent"
-print "The following people have contributed to this work:"
-print_list_contrib(path)
-print "\\end{titlepage}"
+print("}")
+print("\\vskip1in")
+print("\\noindent")
+print("The following people have contributed to this work:")
+print("\\end{titlepage}")
 print_license_blurp(path)
 
 lijstje = list_text_files(path)
@@ -73,7 +72,7 @@ parts = get_parts(path)
 ext = ".tex"
 for name in lijstje:
 	if name in parts:
-		print "\\part{" + parts[name][0] + "}"
+		print("\\part{" + parts[name][0] + "}")
 	if name == "index":
 		filename = path + "tmp/index.tex"
 	else:
@@ -86,7 +85,7 @@ for name in lijstje:
 			if end_of_verbatim(line):
 				verbatim = 0
 			if name != 'introduction':
-				print line,
+				print(line, end='')
 			continue
 		if line.find("\\input{preamble}") == 0:
 			continue
@@ -109,11 +108,11 @@ for name in lijstje:
 			line = line.replace("\\label{", text)
 		if contains_ref(line):
 			line = replace_refs(line, name)
-		print line,
+		print(line, end='')
 
 	tex_file.close()
 	print_chapters(path)
 
-print "\\bibliography{my}"
-print "\\bibliographystyle{amsalpha}"
-print "\\end{document}"
+print("\\bibliography{my}")
+print("\\bibliographystyle{amsalpha}")
+print("\\end{document}")

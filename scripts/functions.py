@@ -2,10 +2,10 @@
 def get_path():
 	from sys import argv
 	if not len(argv) == 2:
-		print
-		print "This script needs exactly one argument"
-		print "namely the path to the stacks project directory"
-		print
+		print()
+		print("This script needs exactly one argument")
+		print("namely the path to the stacks project directory")
+		print()
 		raise Exception('Wrong arguments')
 	path = argv[1]
 	path.rstrip("/")
@@ -142,7 +142,7 @@ def get_new_tags(path, tags):
 def print_new_tags(new_tags):
 	n = 0
 	while n < len(new_tags):
-		print new_tags[n][0] + "," + new_tags[n][1]
+		print(new_tags[n][0] + "," + new_tags[n][1])
 		n = n + 1
 	return
 
@@ -315,7 +315,7 @@ def replace_refs(line, name):
 def print_chapters(path):
 	chapters = open(path + "chapters.tex", 'r')
 	for line in chapters:
-		print line,
+		print(line, end='')
 	chapters.close()
 	return
 
@@ -337,7 +337,7 @@ def print_license_blurp(path):
 			inside = 1
 		if inside == 0:
 			continue
-		print line,
+		print(line)
 		if line.find('\\end{verbatim}') == 0:
 			inside = 0
 	introduction.close()

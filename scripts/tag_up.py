@@ -2,11 +2,11 @@ from functions import *
 
 from sys import argv
 if not len(argv) == 3:
-	print
-	print "This script needs exactly two arguments"
-	print "namely the path to the stacks project"
-	print "and the stem of the tex file"
-	print
+	print()
+	print("This script needs exactly two arguments")
+	print("namely the path to the stacks project")
+	print("and the stem of the tex file")
+	print()
 	raise Exception('Wrong arguments')
 
 path = argv[1]
@@ -31,17 +31,17 @@ def replace_newtheorem(line):
 if name == "preamble":
 	tex_file = open(path + name + ".tex", 'r')
 	for line in tex_file:
-		print replace_newtheorem(line),
+		print(replace_newtheorem(line), end='')
 
 	version = git_version(path)
 
 	from datetime import date
 	now = date.today()
 
-	print "\\usepackage{marginnote}"
-	print "\\renewcommand*{\\marginfont}{\\normalfont}"
+	print("\\usepackage{marginnote}")
+	print("\\renewcommand*{\\marginfont}{\\normalfont}")
 
-	print "\\date{This is a chapter of the Stacks Project, version " + version + ", compiled on " + now.strftime('%h %d, %Y.}')
+	print("\\date{This is a chapter of the Stacks Project, version " + version + ", compiled on " + now.strftime('%h %d, %Y.}'))
 
 	tex_file.close()
 
@@ -69,7 +69,7 @@ for line in tex_file:
 	if verbatim:
 		if end_of_verbatim(line):
 			verbatim = 0
-		print line,
+		print(line, end='')
 		continue
 
 	# Do stuff in preamble or just after \begin{document}
@@ -77,11 +77,11 @@ for line in tex_file:
 		if name == "book":
 			line = replace_newtheorem(line)
 			if line.find("\\begin{document}") == 0:
-				print "\\usepackage{marginnote}"
-				print "\\renewcommand*{\\marginfont}{\\normalfont}"
-		print line,
+				print("\\usepackage{marginnote}")
+				print("\\renewcommand*{\\marginfont}{\\normalfont}")
+		print(line, end='')
 		if line.find("\\begin{document}") == 0:
-			print "\\newcommand{\\TAG}{ZZZZ}"
+			print("\\newcommand{\\TAG}{ZZZZ}")
 			document = 1
 		continue
 
@@ -92,19 +92,19 @@ for line in tex_file:
 			label = short
 		else:
 			label = name + "-" + short
-		print line,
+		print(line, end='')
 		# don't put in hypertarget if label does not have a tag
 		if label in label_tags:
-                        print "\\hypertarget{" + label_tags[label] + "}{}"
-                        # there is a bug in marginnotes that eats subsection titles...
-                        if short.find("subsection") >= 0:
+			print("\\hypertarget{" + label_tags[label] + "}{}")
+			# there is a bug in marginnotes that eats subsection titles...
+			if short.find("subsection") >= 0:
 				line = tex_file.next()
-				print line,
+				print(line, end='')
 				line = tex_file.next()
-				print line,
-				print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}"
+				print(line, end='')
+				print("\\reversemarginpar\\marginnote{" + label_tags[label] + "}")
 			else:
-				print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}"
+				print("\\reversemarginpar\\marginnote{" + label_tags[label] + "}")
 		continue
 
 	# Lines with labeled environments
@@ -118,24 +118,24 @@ for line in tex_file:
 			label = name + "-" + short
 		if not label in label_tags:
 			# ZZZZ is used as pointer to nonexistent tags
-			print "\\renewcommand{\\TAG}{ZZZZ}"
-			print oldline,
-			print line,
+			print("\\renewcommand{\\TAG}{ZZZZ}")
+			print(oldline, end='')
+			print(line, end='')
 			continue
-		print "\\renewcommand{\\TAG}{" + label_tags[label] + "}"
-		print oldline,
-		print line,
-		print "\\reversemarginpar\\marginnote{" + label_tags[label] + "}\\hypertarget{" + label_tags[label] + "}{}"
+		print("\\renewcommand{\\TAG}{" + label_tags[label] + "}")
+		print(oldline, end='')
+		print(line, end='')
+		print("\\reversemarginpar\\marginnote{" + label_tags[label] + "}\\hypertarget{" + label_tags[label] + "}{}")
 		continue
 
 	if line.find("\\begin{reference}") == 0:
-		print "\\normalmarginpar\\marginnote{"
+		print("\\normalmarginpar\\marginnote{")
 		continue
 
 	if line.find("\\end{reference}") == 0:
-		print "}"
+		print("}")
 		continue
 
-	print line,
+	print(line, end='')
 
 tex_file.close()
