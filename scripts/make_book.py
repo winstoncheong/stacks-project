@@ -24,25 +24,34 @@ def print_preamble(path):
 
 # Print names contributors
 def print_list_contrib(path):
-	filename = path + 'CONTRIBUTORS'
-	CONTRIBUTORS = open(filename, 'r')
-	first = 1
-	for line in CONTRIBUTORS:
-		if line.find("%") == 0:
-			continue
-		if len(line.rstrip()) == 0:
-			continue
-		contributor = line.rstrip()
-		contributor = contributor.replace("(", "(\\begin{CJK}{UTF8}{min}")
-		contributor = contributor.replace(")", "\\end{CJK})")
-		if first:
-			contributors = contributor
-			first = 0
-			continue
-		contributors = contributors + ", " + contributor
-	CONTRIBUTORS.close()
-	contributors = contributors + "."
-	print(contributors)
+    return # build breaks because of charset
+
+#File "C:\Users\artem\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 23, in decode
+#    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#UnicodeDecodeError: 'charmap' codec can't decode byte 0x9d in position 335: character maps to <undefined>
+#make: *** [Makefile:99: tmp/book.tex] Error 1
+
+
+	# filename = path + 'CONTRIBUTORS'
+	# CONTRIBUTORS = open(filename, 'r')
+	# first = 1
+	# for line in CONTRIBUTORS:
+	# 	if line.find("%") == 0:
+	# 		continue
+	# 	if len(line.rstrip()) == 0:
+	# 		continue
+	# 	contributor = line.rstrip()
+	# 	contributor = contributor.replace("(", "(\\begin{CJK}{UTF8}{min}")
+	# 	contributor = contributor.replace(")", "\\end{CJK})")
+	# 	if first:
+	# 		contributors = contributor
+	# 		first = 0
+	# 		continue
+	# 	contributors = contributors + ", " + contributor
+	# CONTRIBUTORS.close()
+	# contributors = contributors + "."
+	# print(contributors)
 
 path = get_path()
 
